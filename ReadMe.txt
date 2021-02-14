@@ -1,0 +1,1 @@
+This project is a POC on Google Cloud Firestore
