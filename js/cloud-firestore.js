@@ -17,6 +17,9 @@ $('#insert').click(function(){
 	addData(collectionName, fName, lName, sub);
 });
 
+/*
+	Adding the data along without an auto generated id field. Document Id will be there but it won't br a part of the existing document.
+*/
 function addData(collectionName, fName, lName, sub){
 	
 	db.collection(collectionName).add({	
@@ -36,6 +39,9 @@ function addData(collectionName, fName, lName, sub){
 
 }
 
+/*
+	Adding the data along with an auto generated id field. 
+*/
 function setData(collectionName, fName, lName, sub){	
 	
 	// Add a new document with a generated id.
@@ -171,7 +177,7 @@ function updateDocument(id,data){
 	});
 }
 
-
+// Updating the document. doc.id is required
 $("#update").click(function() {
 	var id = $("#docId").val();
 	var data = $("#changedSub").val();
@@ -184,11 +190,12 @@ $("#update").click(function() {
 	updateDocument(id,data);
 });
 
-
+/*
+	Given a list of document Id the following functiopn will fetch the data
+*/
 function displayDatainList(collectionName, fieldName, idList){
 	
-	var docList = [];
-	
+	var docList = [];	
 	var op = db.collection(collectionName)
 		.where(fieldName, "in", idList)
 		.get()
@@ -205,6 +212,16 @@ function displayDatainList(collectionName, fieldName, idList){
 }
 
 
+/*
+	Given a list of document Id the following functiopn will add listsner to each document
+*/
+function addListenerInList(collectionName, fieldName, idList){	
+	db.collection(collectionName)
+	.where(fieldName, "in", idList)
+    .onSnapshot((querySnapshot) => {      
+       displayDatainList(collectionName, fieldName, idList);
+    });
+}
 
 
 
